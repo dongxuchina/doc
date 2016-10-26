@@ -25,16 +25,22 @@
 * -workspace -scheme
 	
 	当 build workspace 时，需要同时指定 -workspace 和 -scheme 参数，scheme 参数控制了哪些 targets 会被 build 以及以怎样的方式 build;
+	
+	注：username.xcuserdatad 文件夹，username 必须和当前用户保持一致，这样 xcodebuild 才能识别出的当前用户的 xcscheme;
+	
+	```
+	app/AppName.xcodeproj/xcuserdata/root.xcuserdatad/xcschemes/appName.xcscheme
+	```
 
 ### 使用xcodebuild和xcrun打包签名
 
 * 基本用法
 
-	打开终端，进入项目根目录下，运行命令：`xcodebuild -project Discuz_phpwind.xcodeproj -target Discuz_phpwind -configuration Release` 如果看到 `** BUILD SUCCEEDED **` 说明编译成功；
+	打开终端，进入项目根目录下，运行命令：`xcodebuild -project appName.xcodeproj -target appName -configuration Release` 如果看到 `** BUILD SUCCEEDED **` 说明编译成功；
 
 	编译成功后，根目录下创建出一个 build 目录，该目录下有 Release-iphoneos 和 xxxx.build 文件，根据我们 build -configuration 配置的参数不同，Release-iphoneos 的文件名会不同；
 
-	在 Release-iphoneos 文件夹下，有我们需要的xxxx.app文件，但是要安装到真机上，我们需要使用xcrun 命令导出为ipa文件 `xcrun -sdk iphoneos -v PackageApplication ./build/Release-iphoneos/Discuz_phpwind.app -o ~/Desktop/Discuz_phpwind.ipa`
+	在 Release-iphoneos 文件夹下，有我们需要的xxxx.app文件，但是要安装到真机上，我们需要使用xcrun 命令导出为ipa文件 `xcrun -sdk iphoneos -v PackageApplication ./build/Release-iphoneos/appName.app -o ~/Desktop/appName.ipa`
 
 	查看帮助信息 `xcrun -sdk iphoneos -v PackageApplication -help`;
 
@@ -55,7 +61,7 @@
 	
 	为了防止编译出现冲突，需要执行 `xcodebuild clean`
 	
-	可以指定bundleId和profile等信息进行编译：`xcodebuild PRODUCT_BUNDLE_IDENTIFIER=com.xxxxx PROVISIONING_PROFILE=23fd5136-b4fc-41b6-a817-2c461d5b91a5 -workspace  "xxxx.xcworkspace" -scheme  "xxxx" -derivedDataPath build -sdk iphoneos archive DSTROOT=build`
+	可以指定bundleId和profile等信息进行编译：`xcodebuild PRODUCT_BUNDLE_IDENTIFIER=com.xxxxx PROVISIONING_PROFILE=23fd5136-b4fc-41b6-a817-2c461d5b91a5 -workspace  "appName.xcworkspace" -scheme  "appName" -derivedDataPath build -sdk iphoneos archive DSTROOT=build`
 	
 	编译成功后再通过xcrun命令导出ipa文件。
 	
