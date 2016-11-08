@@ -12,7 +12,7 @@ NSRunLoop 是基于 CFRunLoopRef 的封装，提供了面向对象的 API，但�
  
  **我们先通过 API 内一张图片来简单看一下 RunLoop 内部运行原理**
 
- ![aaaaaa](http://note.youdao.com/yws/public/resource/bb93f1a1fb98c7fb1ec45283db978a11/WEBRESOURCE97f63c150a68ce6b0cd4c72526de900a)
+ ![1](http://note.youdao.com/yws/public/resource/bb93f1a1fb98c7fb1ec45283db978a11/WEBRESOURCE97f63c150a68ce6b0cd4c72526de900a)
 
 通过图片可以看出，RunLoop 在跑圈过程中，当接收到 Input sources 或者 Timer sources 时就会交给对应的处理方去处理。当没有事件消息传入的时候，RunLoop 就休息了。这里只是简单的理解一下这张图，接下来我们来了解 RunLoop 对象和其一些相关类，来更深入的理解RunLoop运行流程。
 
@@ -74,7 +74,7 @@ CFRunLoopRef CFRunLoopGetCurrent() {
 
 其中 CFRunLoopModeRef 类并没有对外暴露，只是通过 CFRunLoopRef 的接口进行了封装。他们的关系如下:
 
-![](http://note.youdao.com/yws/public/resource/e78cdcb5242a224fa0e80a30e772a3b3/WEBRESOURCEb75d5ffde5fb2414a05c92caa174f88b)
+![2](http://note.youdao.com/yws/public/resource/e78cdcb5242a224fa0e80a30e772a3b3/WEBRESOURCEb75d5ffde5fb2414a05c92caa174f88b)
 
 一个 RunLoop 包含若干个 Mode，每个 Mode 又包含若干个 Source/Timer/Observer。每次调用 RunLoop 的主函数时，只能指定其中一个 Mode，这个Mode被称作 CurrentMode。如果需要切换 Mode，只能退出 Loop，再重新指定一个 Mode 进入。这样做主要是为了分隔开不同组的 Source/Timer/Observer，让其互不影响。
 
@@ -189,7 +189,7 @@ mach_msg_return_t mach_msg(
 
 为了实现消息的发送和接收，mach_msg() 函数实际上是调用了一个 Mach 陷阱 (trap)，即函数mach_msg_trap()，陷阱这个概念在 Mach 中等同于系统调用。当你在用户态调用 mach_msg_trap() 时会触发陷阱机制，切换到内核态；内核态中内核实现的 mach_msg() 函数会完成实际的工作，如下图：
 
-![](http://note.youdao.com/yws/public/resource/e78cdcb5242a224fa0e80a30e772a3b3/WEBRESOURCE209d3e15f39ddba25371dabd2517f29b)
+![3](http://note.youdao.com/yws/public/resource/e78cdcb5242a224fa0e80a30e772a3b3/WEBRESOURCE209d3e15f39ddba25371dabd2517f29b)
 
 RunLoop 的核心就是一个 mach_msg() (见上面代码的第7步)，RunLoop 调用这个函数去接收消息，如果没有别人发送 port 消息过来，内核会将线程置于等待状态。例如你在模拟器里跑起一个 iOS 的 App，然后在 App 静止时点击暂停，你会看到主线程调用栈是停留在 mach_msg_trap() 这个地方。
 
