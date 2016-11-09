@@ -193,9 +193,7 @@ mach_msg_return_t mach_msg(
 RunLoop 的核心就是一个 mach_msg() (见上面代码的第7步)，RunLoop 调用这个函数去接收消息，如果没有别人发送 port 消息过来，内核会将线程置于等待状态。例如你在模拟器里跑起一个 iOS 的 App，然后在 App 静止时点击暂停，你会看到主线程调用栈是停留在 mach_msg_trap() 这个地方。
 
 
-RunLoop 的实现
-
-首先打印一下RunLoop的对象：
+打印一下RunLoop的对象：
 
 ```
 CFRunLoop {
@@ -507,6 +505,6 @@ while (!done){
 }
 ```
 
-1. [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]]; 启动 RunLoop 保持观察消息的发生，处理完成后退出 RunLoop，有消息处理返回 YES,无消息处理或是超时返回 NO;
+1. [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]]; 启动 RunLoop 保持观察消息的发生，处理完成后退出 RunLoop，有消息处理返回 YES,无消息处理超时返回 NO;
 2. 主线程中使用while死循环，意味着阻塞主线程，此时主线程的 Runloop 处于不工作状态；如果 RunLoop 不工作，程序将无任何响应（卡页面）；可以通过自定义 observer 来观察活动状态
 3. 既想阻塞某块代码的执行，又不想影响主线程的其他操作，那么就需要手动轮训调用 RunLoop 来处理事件消息；保证程序可以正常运行；
