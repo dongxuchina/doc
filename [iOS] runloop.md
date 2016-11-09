@@ -12,7 +12,7 @@ NSRunLoop 是基于 CFRunLoopRef 的封装，提供了面向对象的 API，但�
  
  **我们先通过 API 内一张图片来简单看一下 RunLoop 内部运行原理**
 
- ![1](http://note.youdao.com/yws/public/resource/bb93f1a1fb98c7fb1ec45283db978a11/WEBRESOURCE97f63c150a68ce6b0cd4c72526de900a)
+ ![1](http://note.youdao.com/yws/public/resource/e78cdcb5242a224fa0e80a30e772a3b3/FD400B9FFEFB4FBAB508CA317E7AF8C8)
 
 通过图片可以看出，RunLoop 在跑圈过程中，当接收到 Input sources 或者 Timer sources 时就会交给对应的处理方去处理。当没有事件消息传入的时候，RunLoop 就休息了。这里只是简单的理解一下这张图，接下来我们来了解 RunLoop 对象和其一些相关类，来更深入的理解RunLoop运行流程。
 
