@@ -506,5 +506,7 @@ while (!done){
 ```
 
 1. [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]]; 启动 RunLoop 保持观察消息的发生，处理完成后退出 RunLoop，有消息处理返回 YES,无消息处理超时返回 NO;
-2. 主线程中使用while死循环，意味着阻塞主线程，此时主线程的 Runloop 处于不工作状态；如果 RunLoop 不工作，程序将无任何响应（卡页面）；可以通过自定义 observer 来观察活动状态
+2. 主线程中使用 while 死循环，意味着阻塞主线程，此时主线程的 RunLoop 处于不工作状态；如果 RunLoop 不工作，程序将无任何响应（卡页面）；
 3. 既想阻塞某块代码的执行，又不想影响主线程的其他操作，那么就需要手动轮训调用 RunLoop 来处理事件消息；保证程序可以正常运行；
+
+**疑问**：通过自定义 observer 来观察活动状态, 当 while 循环退出时，最后一次的 RunLoop 调用了kCFRunLoopExit，此时主线程的runloop应该对应调用 kCFRunLoopEntry 才对，而主线程的 RunLoop直接处理 timer 和 sourse。
