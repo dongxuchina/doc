@@ -19,4 +19,19 @@ Command /usr/bin/codesign failed with exit code 1
 [security / codesign in Sierra: Keychain ignores access control settings and UI-prompts for permission](http://stackoverflow.com/questions/39868578/security-codesign-in-sierra-keychain-ignores-access-control-settings-and-ui-p)
 
 
+#### textViewDidBeginEditing:(UITextView *)textView 光标位置
+此方法每次调用时 textView 返回的是上一次光标的位置，并不是当前位置的，应该是调用周期比较靠前，此时新光标还没有定位；解决办法如下：
+
+```
+//延迟一点时间调用 textViewDidChange，此时光标的位置是准确的；
+- (void)textViewDidBeginEditing:(UITextView *)textView {
+    [self performSelector:@selector(textViewDidChange:) withObject:textView afterDelay:0.1f];
+}
+
+- (void)textViewDidChange:(UITextView *)textView {
+    textView.selectedTextRange//通过 textViewDidChange 获取光标位置
+}
+
+
+```
 
