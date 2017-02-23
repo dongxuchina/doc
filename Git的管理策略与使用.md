@@ -74,6 +74,15 @@ git commit -m "remove file.txt"
 
 ```
 
+#### 解决冲突
+Git 用 <<<<<<<，=======，>>>>>>> 标记出不同分支的内容，我们修改后保存再提交
+
+```
+$ git add file.txt 
+$ git commit -m "conflict fixed"
+```
+
+
 ##### 分支管理
 
 查看分支：`git branch`
