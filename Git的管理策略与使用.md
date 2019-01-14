@@ -91,6 +91,8 @@ $ git commit -m "conflict fixed"
 
 切换分支：`git checkout develop`
 
+根据已有分支创建新的分支：`git checkout -b yourbranchname origin/oldbranchname`
+
 创建+切换分支：`git checkout -b develop`
 
 合并某分支到当前分支：`git merge develop`
