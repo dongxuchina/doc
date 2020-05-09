@@ -23,6 +23,9 @@
 
 `git clone git@server-name:path/repo-name.git`
 
+##### 设置push和pull的默认分支
+`git branch --set-upstream-to=origin/master master`
+
 ##### 把文件添加到暂存区
 
 ```
